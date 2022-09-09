@@ -1,13 +1,13 @@
 pipeline {
     agent any
     environment {
-        AWS_ACCESS_KEY_ID = credentials('jenkins-access-key-id')
-        AWS_SECRET_ACCESS_KEY = credentials('jenkins-secret-access-key')
-        AWS_S3_BUCKET = "gradffffffffffff"
+        AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+        AWS_S3_BUCKET = "gradle2"
         ARTIFACT_NAME = "sample-gradle.jar"
-        AWS_EB_APP_NAME = "grad"
+        AWS_EB_APP_NAME = "Gradle-jenkins"
         AWS_EB_APP_VERSION = "${BUILD_ID}"
-        AWS_EB_ENVIRONMENT = "Grad-env"
+        AWS_EB_ENVIRONMENT = "Gradlejenkins-env"
     }
     stages {
         stage('Validate') {
@@ -40,7 +40,7 @@ pipeline {
         }
         stage('Publish artifacts to S3 Bucket') {
             steps {
-                sh "aws configure set region us-east-2"
+                sh "aws configure set region us-east-1"
                 sh "aws s3 cp ./build/libs/samplegradle-0.0.1-SNAPSHOT.jar s3://$AWS_S3_BUCKET/$ARTIFACT_NAME"
             }
          }
